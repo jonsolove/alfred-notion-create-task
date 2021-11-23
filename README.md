@@ -1,6 +1,6 @@
 # Alfred <> Notion - Create Page
 
-This Alfred workflow creates a page in Notion. I'm using it for creating tasks under my Task List, so the properties reflect that usage.
+This Alfred workflow creates a task in your Notion Task List.
 
 ## Usage
 
@@ -23,4 +23,5 @@ That will create a page (task) in your selected database (database_id) with the 
 * Start by creating an integration here: <https://www.notion.so/my-integrations>
 * The "api secret" you get from your integration will need to be put into the BEARER_TOKEN variable.
 * Also make sure to "share" your database with your integration or it won't show up. For more info on working with databases in Notion, check this out: <https://developers.notion.com/docs/working-with-databases>
-* Finally update the DATABASE_ID to match your database (found in the url if viewed from the browser)
+* Update the DATABASE_ID to match your Task List database (found in the url if viewed from the browser)
+* Add a "Category" select property to your Task List
