@@ -45,7 +45,7 @@ request.body = JSON.dump({
       "title": [
         {
           "text": {
-            "content": title
+            "content": "[" + category + "] " + title
           }
         }
       ]
@@ -80,4 +80,4 @@ request.body = JSON.dump({
 })
 
 response = https.request(request)
-puts response.read_body
+puts "Created new task: " + "[" + category + "] " + title
