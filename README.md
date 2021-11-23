@@ -1,4 +1,4 @@
-# Alfred <> Notion - Create Page
+# Alfred <> Notion - Create Task
 
 This Alfred workflow creates a task in your Notion Task List.
 
