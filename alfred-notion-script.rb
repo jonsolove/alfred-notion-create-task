@@ -19,12 +19,20 @@ request_array = request_args.split(';')
 
 category = request_array[0]
 title = request_array[1]
+name = "";
 
+# Make sure there is a category. If there isn't
+# we'll set it to "uncategorized"
+if (category.nil? || category == "")
+  category = "Uncategorized"
+end
+
+name = "[" + category + "] " + title
+
+body = ""
 # Make sure that there actually is a body
 if (request_array.length > 2)
 	body = request_array[2]
-else
-	body = ""
 end
 
 url = URI("https://api.notion.com/v1/pages")
@@ -45,7 +53,7 @@ request.body = JSON.dump({
       "title": [
         {
           "text": {
-            "content": "[" + category + "] " + title
+            "content": name
           }
         }
       ]
@@ -80,4 +88,4 @@ request.body = JSON.dump({
 })
 
 response = https.request(request)
-puts "Created new task: " + "[" + category + "] " + title
+puts "Created new task: " + name
