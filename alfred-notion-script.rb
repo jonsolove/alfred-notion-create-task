@@ -30,9 +30,80 @@ end
 name = "[" + category + "] " + title
 
 body = ""
+request_body_json = {}
 # Make sure that there actually is a body
+# and build json request for Notion API (with or without body/children)
 if (request_array.length > 2)
 	body = request_array[2]
+  request_body_json = JSON.dump({
+    "parent": {
+      "database_id": database_id
+    },
+    "properties": {
+      "Name": {
+        "title": [
+          {
+            "text": {
+              "content": name
+            }
+          }
+        ]
+      },
+      "Status": {
+        "select": {
+          "name": "Organize"
+        }
+      },
+      "Category": {
+        "select": {
+          "name": category
+        }
+      }
+    },
+    "children": [
+      {
+        "object": "block",
+        "type": "paragraph",
+        "paragraph": {
+          "text": [
+            {
+              "type": "text",
+              "text": {
+                "content": body
+              }
+            }
+          ]
+        }
+      }
+    ]
+  })
+else
+  request_body_json = JSON.dump({
+    "parent": {
+      "database_id": database_id
+    },
+    "properties": {
+      "Name": {
+        "title": [
+          {
+            "text": {
+              "content": name
+            }
+          }
+        ]
+      },
+      "Status": {
+        "select": {
+          "name": "Organize"
+        }
+      },
+      "Category": {
+        "select": {
+          "name": category
+        }
+      }
+    }
+  })
 end
 
 url = URI("https://api.notion.com/v1/pages")
@@ -44,48 +115,7 @@ request = Net::HTTP::Post.new(url)
 request["Content-Type"] = "application/json"
 request["Notion-Version"] = "2021-08-16"
 request["Authorization"] = "Bearer " + bearer_token
-request.body = JSON.dump({
-  "parent": {
-    "database_id": database_id
-  },
-  "properties": {
-    "Name": {
-      "title": [
-        {
-          "text": {
-            "content": name
-          }
-        }
-      ]
-    },
-    "Status": {
-      "select": {
-        "name": "Organize"
-      }
-    },
-    "Category": {
-      "select": {
-        "name": category
-      }
-    }
-  },
-  "children": [
-    {
-      "object": "block",
-      "type": "paragraph",
-      "paragraph": {
-        "text": [
-          {
-            "type": "text",
-            "text": {
-              "content": body
-            }
-          }
-        ]
-      }
-    }
-  ]
-})
+request.body = request_body_json
 
 response = https.request(request)
 puts "Created new task: " + name
